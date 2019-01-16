@@ -1,18 +1,18 @@
 #include QMK_KEYBOARD_H
 
 enum alt_keycodes {
-    L_BRI = SAFE_RANGE, //LED Brightness Increase
-    L_BRD,              //LED Brightness Decrease
-    L_PTN,              //LED Pattern Select Next
-    L_PTP,              //LED Pattern Select Previous
-    L_PSI,              //LED Pattern Speed Increase
-    L_PSD,              //LED Pattern Speed Decrease
-    L_T_MD,             //LED Toggle Mode
-    L_T_ONF,            //LED Toggle On / Off
+    L_BRI = SAFE_RANGE, // 亮度 + [Fn + A]
+    L_BRD,              // 亮度 - [Fn + S]
+    L_PTN,              // 模式 : 上一個 [Fn + Q]
+    L_PTP,              // 模式 : 下一個 [Fn + W]
+    L_PSI,              // 速度 + [Fn + Z]
+    L_PSD,              // 速度 - [Fn + X]
+    L_T_ONF,            // 亮燈開關 [Fn + Tab]
+    L_T_MD,             // 亮燈模式開關 : 鍵盤、側邊 [Fn + CapsLock]
+    L_T_BR,             // 呼吸燈模式 [Fn + Shift]
+    L_T_PTD,            // 滾動模式 [Fn + Ctrl]
     L_ON,               //LED On
     L_OFF,              //LED Off
-    L_T_BR,             //LED Toggle Breath Effect
-    L_T_PTD,            //LED Toggle Scrolling Pattern Direction
     U_T_AUTO,           //USB Extra Port Toggle Auto Detect / Always Active
     U_T_AGCR,           //USB Toggle Automatic GCR control
     DBG_TOG,            //DEBUG Toggle On / Off
@@ -23,33 +23,32 @@ enum alt_keycodes {
 };
 
 #define TG_NKRO MAGIC_TOGGLE_NKRO //Toggle 6KRO / NKRO mode
+#define ______ KC_TRNS
 
 keymap_config_t keymap_config;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(
-        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC, KC_DEL,  \
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS, KC_HOME, \
-        KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,  KC_PGUP, \
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,          KC_UP,   KC_PGDN, \
-        KC_LCTL, KC_LALT, KC_LGUI,                            KC_SPC,                             KC_RGUI, MO(1),   KC_LEFT, KC_DOWN, KC_RGHT  \
+        KC_ESC,  KC_1,    KC_2,    KC_3,    KC_4,   KC_5,   KC_6,   KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_BSPC,     KC_DEL,  \
+        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,   KC_T,   KC_Y,   KC_U,   KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC, KC_BSLS,     KC_HOME, \
+        KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,   KC_G,   KC_H,   KC_J,   KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_ENT,      KC_PGUP, \
+        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM, KC_DOT,  KC_SLSH, KC_RSFT,          KC_UP,       KC_PGDN, \
+        KC_LCTL, KC_LALT, KC_LGUI,                          KC_SPC,                           KC_RGUI, MO(1),   KC_LEFT, KC_DOWN,     KC_RGHT  \
     ),
     [1] = LAYOUT(
-        KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_TRNS, KC_MUTE, \
-        L_T_BR,  L_PSD,   L_BRI,   L_PSI,   KC_TRNS, KC_TRNS, KC_TRNS, U_T_AUTO,U_T_AGCR,KC_TRNS, KC_PSCR, KC_SLCK, KC_PAUS, KC_TRNS, KC_END, \
-        L_T_PTD, L_PTP,   L_BRD,   L_PTN,   KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_VOLU, \
-        KC_TRNS, L_T_MD,  L_T_ONF, KC_TRNS, KC_TRNS, MD_BOOT, TG_NKRO, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_PGUP, KC_VOLD, \
-        KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS,                            KC_TRNS, KC_TRNS, KC_HOME, KC_PGDN, KC_END  \
+        KC_GRV,  KC_F1,   KC_F2,   KC_F3,   KC_F4,  KC_F5,  KC_F6,  KC_F7,  KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ______,      KC__MUTE, \
+        ______,  ______,  ______,  ______,  ______, ______, ______, ______, ______,  ______,  ______,  ______,  ______,  ______,      KC_END,   \
+        ______,  ______,  ______,  ______,  ______, ______, ______, ______, ______,  ______,  ______,  ______,           ______,      ______,   \
+        ______,  ______,  ______,  ______,  ______, ______, ______, ______, ______,  ______,  ______,  ______,           KC__VOLUP,   ______,   \
+        ______,  ______,  ______,                           KC_MPLY,                          MO(2),   ______,  KC_MRWD, KC__VOLDOWN, KC_MFFD   \
     ),
-    /*
-    [X] = LAYOUT(
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, \
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, \
-        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,          KC_TRNS, KC_TRNS, \
-        KC_TRNS, KC_TRNS, KC_TRNS,                            KC_TRNS,                            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS  \
+    [2] = LAYOUT(
+        L_T_ONF, L_T_MD,  L_T_BR,  L_T_PTD, ______, ______, ______, ______, ______,  ______,  ______,  ______,  ______,  ______,      ______,   \
+        ______,  L_PTN,   L_PTP,   ______,  ______, ______, ______, ______, ______,  ______,  ______,  ______,  ______,  ______,      ______,   \
+        ______,  L_BRD,   L_BRI,   ______,  ______, ______, ______, ______, ______,  ______,  ______,  ______,           ______,      ______,   \
+        ______,  L_PSD,   L_PSI,   ______,  ______, ______, ______, ______, ______,  ______,  ______,  ______,           ______,      ______,   \
+        ______,  ______,  ______,                           ______,                           ______,  ______,  ______,  ______,      ______    \
     ),
-    */
 };
 
 const uint16_t PROGMEM fn_actions[] = {
@@ -193,5 +192,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 led_instruction_t led_instructions[] = {
-    { .end = 1 }
+        // ESC
+        {.flags = LED_FLAG_MATCH_ID | LED_FLAG_USE_PATTERN, .id0=1, .pattern_id=0},
+        // 功能鍵
+        {.flags = LED_FLAG_MATCH_ID | LED_FLAG_USE_RGB, .id0=1610670080, .id1=3749714944, .id2=7, .r=255, .g=0, .b=0},
+        // 文字鍵
+        {.flags = LED_FLAG_MATCH_ID | LED_FLAG_USE_RGB, .id0=2684297214, .id1=545252351, .r=24, .g=215, .b=204},
+        {.end = 1}
 };
